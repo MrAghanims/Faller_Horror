@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     public float gravity = -9.81f;
     public Transform cam;
     public float mouseSensitivity = 2f;
+    public GameObject levelCompletePanel;
 
     private float xRotation = 0f;
     private Vector3 velocity;
@@ -40,5 +41,17 @@ public class PlayerMovement : MonoBehaviour
         
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
+    }
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.collider.CompareTag("Finish"))
+        {
+            Debug.Log("Player reached finish line!");
+            levelCompletePanel.SetActive(true);
+            Time.timeScale = 0f;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
     }
 }
